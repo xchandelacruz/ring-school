@@ -1,0 +1,117 @@
+<?php $__env->startSection('content'); ?>
+    <div class="container" style="">
+      <?php if(Session::has('message')): ?>
+      <div class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <?php echo Session::get('message'); ?>
+
+      </div>
+      <?php endif; ?>
+      <?php if(Session::has('errormessage')): ?>
+      <div class="alert alert-danger alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+        <?php echo Session::get('errormessage'); ?>
+
+      </div>
+      <?php endif; ?>
+      <div class="row">
+        <div class="col-md-9 col-md-push-3">
+          <div class="panel panel-danger">
+            <div class="panel-heading"><?php echo trans('labels.users.lbl_title'); ?></div>
+            <div class="panel-body">
+              <div class="table-responsive">
+                <table class="table table-hover table-striped">
+                  <tbody>
+                   <?php foreach($user as $value): ?>
+                   <tr>
+                     <td class="active">
+                      <?php if($value->avatar == null): ?>
+                      <img src="/uploads/avatar.png" width="35px" height="35px" class="img-circle">
+                      <?php else: ?>
+                      <img src="/uploads/<?php echo $value->avatar ?>" width="35px" height="35px" class="img-circle">
+                      <?php endif; ?>
+                    </td>
+                    <td class="active"><?php echo $value->fullname; ?></td>
+                    <td class="active"><?php echo $value->position; ?></td>
+                    <td class="active">
+                      <a class="btn btn-small btn-default" href="<?php echo URL::to('admin/profile/' . $value->user_id); ?>"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> <?php echo trans('labels.master.lbl_show_profile'); ?></a>
+                      <a class="btn btn-small btn-default" href="<?php echo URL::to('admin/update/' . $value->user_id ); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> <?php echo trans('labels.users.lbl_edit_profile'); ?></a>
+                    </td>
+                    <td class="active">
+                      <?php if($value->del_flag == '0'): ?>
+                      <?php echo Form::open(array('url' => 'admin/'. $value->user_id. '/delete' , 'class' => 'pull-right')); ?>
+
+                      <button type="submit" class="btn btn-danger" aria-label="Left Align" id="delete">
+                       <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 
+                     </button>
+                     <?php echo Form::close(); ?>
+
+                     <?php else: ?>
+                     <?php echo Form::open(array('url' => 'admin/'. $value->user_id .  '/activate' , 'class' => 'pull-right')); ?>
+
+                     <button type="submit" class="btn btn-success" aria-label="Left Align">
+                       <span class="glyphicon glyphicon-check" aria-hidden="true"></span> 
+                     </button>
+                     <?php echo Form::close(); ?>
+
+                     <?php endif; ?>
+                   </td>
+                 </tr>
+                 <?php endforeach; ?>
+               </tbody>
+             </table>
+             <!--pagination-->
+             <?php echo $user->links(); ?>
+
+           </div>
+         </div>
+       </div>
+     </div>
+     <div class="col-md-3 col-md-pull-9">
+      <div class="panel panel-danger">
+        <div class="panel-heading"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;&nbsp; <?php echo trans('labels.index.lbl_new_reg_emp'); ?></div>
+        <div class="panel-body">
+          <?php 
+          $dt = new DateTime();
+          $dt->format('Y-m-d');
+          $empNew = DB::table('employees')->orderBy('created_at','DESC')->take(3) ->get();
+          ?>
+          <?php foreach($empNew as $empNew): ?>
+          <ul>
+            <?php if($empNew->avatar == null): ?>
+            <img src="/uploads/avatar.png" width="35px" height="35px" class="img-circle">
+            <?php else: ?>
+            <img src="/uploads/<?php echo $empNew->avatar ?>" width="35px" height="35px" class="img-circle">
+            <?php endif; ?>
+            <a href="<?php echo URL::to('employees/'); ?>/<?php echo $empNew->emp_id; ?>"><?php echo $empNew->firstname; ?> <?php echo $empNew->lastname; ?></a>
+          </ul>
+          <?php endforeach; ?>
+        </div>
+      </div>
+      <div class="panel panel-danger">
+        <div class="panel-heading"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;&nbsp; <?php echo trans('labels.users.lbl_reg_user'); ?></div>
+        <div class="panel-body">
+          <?php 
+          $dt = new DateTime();
+          $dt->format('Y-m-d');
+          $userNew = DB::table('users')->orderBy('created_at','DESC')->take(3)->get();
+          ?>
+          <?php foreach($userNew as $userNew): ?>
+          <ul>
+            <?php if($userNew->avatar == null): ?>
+            <img src="/uploads/avatar.png" width="35px" height="35px" class="img-circle">
+            <?php else: ?>
+            <img src="/uploads/<?php echo $userNew->avatar ?>" width="35px" height="35px" class="img-circle">
+            <?php endif; ?>
+            <a href="<?php echo URL::to('admin/profile/'); ?>/<?php echo $userNew->user_id; ?>"><?php echo $userNew->fullname; ?></a>
+          </ul>
+          <?php endforeach; ?>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,113 @@
+<?php $__env->startSection('content'); ?>
+<script>$(document).on('click', '#submit', offBeforeUnload);
+
+    function offBeforeUnload(event) {
+        $(window).off('beforeunload');
+    }
+    function windowBeforeUnload() {
+        return "Data will be lost if you leave the page.";
+    }
+    $(document).ready(function(){
+        $('#username').focus();
+        $(":input").focusout(function () {
+            if ($(this).val()) {
+                $(window).on('beforeunload', windowBeforeUnload);
+            }
+        });
+    });</script>
+    <?php if(Session::has('message')): ?>
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+        <?php echo Session::get('message'); ?>
+
+    </div>
+    <?php endif; ?>
+    <?php if(Session::has('errormessage')): ?>
+    <div class="alert alert-danger alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+        <?php echo Session::get('errormessage'); ?>
+
+    </div>
+    <?php endif; ?>
+    <?php echo Form::open(array('url' => 'admin/register')); ?>
+
+    <div class="row centered-form">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
+            <div class="panel panel-default panel-danger">
+                <div class="panel-heading ">
+
+                    <h3 class="panel-title"><?php echo trans('labels.register.lbl_title'); ?></h3>
+               </div>
+               <div class="panel-body">
+                <div class="form-group <?php if($errors->has('username')): ?> has-error <?php endif; ?>">
+                    <label for="username"><?php echo trans('labels.register.lbl_username'); ?></label>
+                    <input type="text" id="username" class="form-control" name="username" placeholder="<?php echo trans('placeholder.register.username'); ?>" value="<?php echo Input::old('username'); ?>">
+                    <?php if($errors->has('username')): ?> <p class="help-block">
+                    <div class="alert alert-danger" role="alert">
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                        <span class="sr-only">Error:</span>
+                        Username is required.
+                    </div>
+                </p>
+                <?php endif; ?>
+            </div>
+            <div class="form-group <?php if($errors->has('password')): ?> has-error <?php endif; ?>">
+                <label for="password"><?php echo trans('labels.register.lbl_password'); ?></label>
+                <input type="password" id="password" class="form-control" name="password" placeholder="<?php echo trans('placeholder.register.password'); ?>" value="<?php echo Input::old('password'); ?>">
+                <?php if($errors->has('password')): ?> <p class="help-block">
+                <div class="alert alert-danger" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                    Password is required.
+                </div>
+            </p>
+            <?php endif; ?>
+        </div>
+        <div class="form-group <?php if($errors->has('fullname')): ?> has-error <?php endif; ?>">
+            <label for="fullname"><?php echo trans('labels.register.lbl_fullname'); ?></label>
+            <input type="text" id="fullname" class="form-control" name="fullname" placeholder="<?php echo trans('placeholder.register.fullname'); ?>" value="<?php echo Input::old('fullname'); ?>">
+            <?php if($errors->has('fullname')): ?> <p class="help-block">
+            <div class="alert alert-danger" role="alert">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                <span class="sr-only">Error:</span>
+                Full Name is required.
+            </div>
+        </p>
+        <?php endif; ?>
+    </div>
+    <div class="form-group <?php if($errors->has('position')): ?> has-error <?php endif; ?>">
+        <label for="position"><?php echo trans('labels.register.lbl_position'); ?></label>
+        <input type="text" id="position" class="form-control" name="position" placeholder="<?php echo trans('placeholder.register.position'); ?>" value="<?php echo Input::old('position'); ?>">
+        <?php if($errors->has('position')): ?> <p class="help-block">
+        <div class="alert alert-danger" role="alert">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+            <?php echo trans('labels.register.lbl_position'); ?> is required.
+        </div>
+    </p>
+    <?php endif; ?>
+</div>
+    <div class="form-group">
+       <label for="privilege"><?php echo trans('labels.register.lbl_privilege'); ?></label>
+
+       <select name="privilege" class="form-control">
+           <option disabled selected><?php echo trans('placeholder.register.privilege'); ?></option>
+           <option value="0" ><?php echo trans('labels.register.lbl_hr'); ?></option>
+           <option value="1" ><?php echo trans('labels.register.lbl_admin'); ?></option>
+       </select>
+    </div>
+
+</div>
+<div class="panel-footer">
+    <?php echo Form::submit('CREATE ACCOUNT', array('class' => 'btn btn-block btn-md btn-success','id' => 'submit')); ?>
+
+    <?php echo Form::close(); ?>
+
+</div>
+</div>
+</div>
+</div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

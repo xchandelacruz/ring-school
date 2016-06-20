@@ -1,0 +1,56 @@
+<?php $__env->startSection('content'); ?>
+<?php if(Session::has('message')): ?>
+<div class="alert alert-info alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <?php echo Session::get('message'); ?>
+
+</div>
+<?php endif; ?>
+<?php if(Session::has('errormessage')): ?>
+<div class="alert alert-danger alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+    <?php echo Session::get('errormessage'); ?>
+
+</div>
+<?php endif; ?>
+<div class="row centered-form">
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
+        <div class="panel panel-default panel-danger">
+            <div class="panel-heading ">
+                <h3 class="panel-title"><?php echo trans('labels.csv_import.lbl_title'); ?></h3>
+            </div>
+            <?php echo Form::open(array('url' => 'employees/'. $employee->emp_id .'/stats/creates', 'files' => true)); ?>
+
+            <div class="panel-body">
+                <div class="form-group  <?php if($errors->has('csv')): ?> has-error <?php endif; ?>">
+                    <?php echo Form::label('avatar', 'Avatar',array('class' => 'sr-only')); ?>
+
+                    <div style="position:relative;">
+                       <input type="file" class="filestyle" name="csv" id="csv" accept=".csv" data-input="true" >
+                       <?php if($errors->has('csv')): ?> <p class="help-block">
+                       <div class="alert alert-danger" role="alert">
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                        <span class="sr-only">Error:</span>
+                        Attachment is required
+                    </div>
+                </p>
+                <?php endif; ?>
+            </div>
+            <div class="centered-form">
+                <?php echo Form::submit('Submit',array('class' => 'btn col-sm-5 btn-md btn-success', 'style'=>'margin-left:30px;')); ?>
+
+
+                <a href="<?php echo URL::to('employees/'.$employee->emp_id.'/stats'); ?>" class="btn col-sm-5 btn-md btn-danger" style="margin-left:10px;">CANCEL</a>
+            </div>
+        </div>
+
+    </div>
+    <?php echo Form::close(); ?>
+
+</div>
+</div>
+</div>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

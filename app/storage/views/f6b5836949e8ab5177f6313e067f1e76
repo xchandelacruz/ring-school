@@ -1,0 +1,72 @@
+<?php $__env->startSection('content'); ?>
+<div class="container" style="">
+ <?php if(Session::has('message')): ?>
+ <div class="alert alert-success alert-dismissible" role="alert">
+   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+   <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+   <?php echo Session::get('message'); ?>
+
+ </div>
+ <?php endif; ?>
+ <?php if(Session::has('errormessage')): ?>
+ <div class="alert alert-danger alert-dismissible" role="alert">
+   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+   <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+   <?php echo Session::get('errormessage'); ?>
+
+ </div>
+ <?php endif; ?>
+ <div class="panel panel-danger">
+  <div class="panel-heading"><?php echo trans('labels.request.lbl_title'); ?></div>
+  <div class="panel-body">
+    <div class="form-group">
+      <div class="btn-group">
+       <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+        View <?php echo ucwords(Request::segment(3) ). " Requests"; ?> <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li><a href="<?php echo URL::to('/employees/request'); ?>">All Request</a></li>
+        <li><a href="<?php echo URL::to('/employees/request/pending'); ?>">Pending Request</a></li>
+        <li><a href="<?php echo URL::to('/employees/request/approved'); ?>">Approved Request</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="table-responsive">
+   <table class="table table-hover table-bordered">
+    <tbody>
+      <?php foreach($employee as $request): ?>
+      <tr>
+        <td class="active">
+         <?php if($request->employee->avatar == null): ?>
+         <img src="/uploads/avatar.png" width="35px" height="35px" class="img-circle">
+         <?php else: ?>
+         <img src="/uploads/<?php echo $request->employee->avatar ?>" width="35px" height="35px" class="img-circle">
+         <?php endif; ?>
+         &nbsp;&nbsp;&nbsp;
+         <?php echo ucwords($request->employee->firstname ." ". $request->employee->lastname); ?>
+       </td>
+       <td class="active">
+         <a class="btn btn-small btn-default" name="showProfile" href="<?php echo URL::to('employees/' . $request->emp_id); ?>"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Show Profile</a>
+         <a class="btn btn-small btn-default" href="<?php echo URL::to('employees/payslip/' . $request->payroll_id ); ?>"><span class="glyphicon glyphicon-file" aria-hidden="true"></span> Show Payslip</a>
+         <a class="btn btn-small btn-default" href="<?php echo URL::to('employees/payslip/'.$request->payroll_id.'/save'); ?>"><span class="glyphicon glyphicon-floppy-disk"></span> Save Payslip</a>
+       </td>
+       <?php if($request->approve == '0'): ?>
+       <td class="active">
+         <a href="<?php echo URL::to('admin/mail/'.$request->req_id.''); ?>" role="button" class="btn btn-success pull-right"><span class="glyphicon glyphicon-check"></span> Approve Request</a>
+       </td>
+       <?php endif; ?>
+     </tr>
+     <?php endforeach; ?>
+   </tbody>
+ </table>
+</div>
+<!--pagination-->
+<?php if(Request::segment(3) != 'approved'): ?>
+<?php echo $employee->links(); ?>
+
+<?php endif; ?>
+</div>
+</div>
+</div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

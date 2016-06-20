@@ -1,0 +1,66 @@
+<?php $__env->startSection('content'); ?>
+<script>
+    function Regen(){
+        if(confirm("Are you sure you want to regenerate payslip?")){
+            $(this).prev('button').remove();
+        }else{
+            event.preventDefault();
+        }
+    }
+</script>
+<?php if(Session::has('message')): ?>
+<div class="alert alert-success alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+    <?php echo Session::get('message'); ?>
+
+</div>
+<?php endif; ?>
+<?php if(Session::has('errormessage')): ?>
+<div class="alert alert-danger alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+    <?php echo Session::get('errormessage'); ?>
+
+</div>
+<?php endif; ?>
+<div class="row" >
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                <h3 class="panel-title span2">Please choose date to generate payslip.</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row" id="mydiv">
+                   <?php if(Request::segment(4)=='edit'): ?>
+                   <?php echo Form::open(array('url'=>'employees/'.$employee->payroll_id.'/payslip/edit')); ?>
+
+                   <?php else: ?>
+                   <?php echo Form::open(array('url'=>'employees/'.$employee->emp_id.'/payslip')); ?>
+
+                   <?php endif; ?>
+                   <div class="form-group text-center <?php if($errors->has('from')): ?> has-error <?php endif; ?>" style="width:250px;margin:auto;">
+                       <div class="input-group <?php if($errors->has('from')): ?> has-error <?php endif; ?>">
+                          <div class="input-group-addon"><?php echo trans('labels.iPayslip.lbl_from'); ?></div>
+                          <input type="text" class="form-control" name="from" id="from">
+                      </div>
+                      <br/>
+                      <div class="input-group <?php if($errors->has('to')): ?> has-error <?php endif; ?>">
+                          <div class="input-group-addon">&nbsp;&nbsp; <?php echo trans('labels.iPayslip.lbl_to'); ?> &nbsp;&nbsp;</div>
+                          <input type="text" class="form-control" name="to" id="to">
+                      </div>
+                      <br/>
+                      <div class="form-group  <?php if($errors->has('to')): ?> has-error <?php endif; ?>"></div>
+                      <?php echo Form::submit('Submit', array('class' => 'btn  btn-md btn-success')); ?>
+
+                      <a <?php if(Session::has('flg')): ?>href="<?php echo URL::to('employees/'.$employee->emp_id); ?>"
+                          <?php else: ?>  href="<?php echo URL::to('employees/'.$employee->emp_id.'/payroll'); ?>"
+                          <?php endif; ?>
+                          class="btn btn-md btn-danger"><?php echo trans('labels.lbl_cancel'); ?></a>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <?php $__env->stopSection(); ?>
+<?php echo $__env->make('master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

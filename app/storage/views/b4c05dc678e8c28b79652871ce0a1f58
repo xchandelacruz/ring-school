@@ -1,0 +1,117 @@
+<?php $__env->startSection('content'); ?>
+<?php if(Session::has('message')): ?>
+<div class="alert alert-success alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+    <?php echo Session::get('message'); ?>
+
+</div>
+<?php endif; ?>
+<?php if(Session::has('errormessage')): ?>
+<div class="alert alert-danger alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+    <?php echo Session::get('errormessage'); ?>
+
+</div>
+<?php endif; ?>
+<?php echo Form::open(array('url' => 'employees/'.$employee->emp_id.'/contribution/')); ?>
+
+<div class="row centered-form">
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
+        <div class="panel panel-default panel-danger">
+            <div class="panel-heading ">
+               <h3 class="panel-title"><?php echo trans('labels.contribution.lbl_emp_rate'); ?></h3>
+           </div>
+           <div class="panel-body">
+               <label for="sss"><?php echo trans('labels.contribution.lbl_sss_cont'); ?></label>
+               <div class="input-group <?php if($errors->has('sss')): ?> has-error <?php endif; ?>">
+                <span class="input-group-addon">₱</span>
+                <input type="text" id="sss" class="form-control" name="sss" placeholder="" value="<?php echo $employee->sss_tax; ?>">
+            </div>
+            <?php if($errors->has('sss')): ?> <p class="help-block">
+            <div class="alert alert-danger" role="alert">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                <span class="sr-only">Error:</span>
+                SSS field is required
+            </div>
+        </p>
+        <?php endif; ?>
+        <label for="philhealth"><?php echo trans('labels.contribution.lbl_philH_cont'); ?></label>
+        <div class="input-group <?php if($errors->has('philhealth')): ?> has-error <?php endif; ?>">
+            <span class="input-group-addon">₱</span>
+            <input type="text" id="philhealth" class="form-control" name="philhealth" placeholder="" value="<?php echo $employee->philhealth_tax; ?>">
+
+        </div>
+        <?php if($errors->has('philhealth')): ?> <p class="help-block">
+        <div class="alert alert-danger" role="alert">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+            PhilHealth field is required
+        </div>
+    </p>
+    <?php endif; ?>
+    <label for="pagibig"><?php echo trans('labels.contribution.lbl_pagibi_cont'); ?></label>
+    <div class="input-group <?php if($errors->has('pagibig')): ?> has-error <?php endif; ?>">
+        <span class="input-group-addon">₱</span>
+        <input type="text" id="pagibig" class="form-control" name="pagibig" placeholder="" value="<?php echo $employee->pagibig_tax; ?>">
+    </div>
+    <?php if($errors->has('pagibig')): ?> <p class="help-block">
+    <div class="alert alert-danger" role="alert">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>
+        Pag-ibig field is required
+    </div>
+</p>
+<?php endif; ?>
+<label for="salary"><?php echo trans('labels.contribution.lbl_basic_salary'); ?></label>
+<div class="input-group <?php if($errors->has('salary')): ?> has-error <?php endif; ?>">
+    <span class="input-group-addon">₱</span>
+    <input type="text" id="salary" class="form-control" name="salary" placeholder="" value="<?php echo $employee->salary; ?>">
+</div>
+<?php if($errors->has('salary')): ?> <p class="help-block">
+<div class="alert alert-danger" role="alert">
+    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+    <span class="sr-only">Error:</span>
+    Salary field is required
+</div>
+</p>
+<?php endif; ?>
+<label for="salary"><?php echo trans('labels.contribution.lbl_allowance'); ?></label>
+<div class="input-group <?php if($errors->has('allowance')): ?> has-error <?php endif; ?>">
+    <span class="input-group-addon">₱</span>
+    <input type="text" id="allowance" class="form-control" name="allowance" placeholder="" value="<?php echo $employee->allowance; ?>">
+</div>
+<?php if($errors->has('allowance')): ?> <p class="help-block">
+<div class="alert alert-danger" role="alert">
+    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+    <span class="sr-only">Error:</span>
+    Allowance field is required
+</div>
+</p>
+<?php endif; ?>
+<label for="rate">Rate</label>
+<div class="input-group <?php if($errors->has('rate')): ?> has-error <?php endif; ?>">
+    <span class="input-group-addon">₱</span>
+    <input type="text" id="rate" class="form-control" name="rate" placeholder="" value="<?php echo $employee->rate; ?>" disabled="">
+</div>
+<?php if($errors->has('rate')): ?> <p class="help-block">
+<div class="alert alert-danger" role="alert">
+    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+    <span class="sr-only">Error:</span>
+    Rate field is required
+</div>
+</p>
+<?php endif; ?>
+<br/>
+<?php echo Form::submit('SUBMIT', array('class' => 'btn col-md-5 btn-md btn-success','style'=>'margin-left:40px;')); ?>
+
+<a href="<?php echo URL::to('employees/'.$employee->emp_id); ?>" class="btn col-md-5 btn-md btn-danger" style="margin-left: 10px">CANCEL</a>
+<?php echo Form::close(); ?>
+
+</div>
+</div>
+</div>
+</div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

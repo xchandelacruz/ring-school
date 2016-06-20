@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Payroll</title>
+    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="/css/bootstrap-datepicker3.css">
+    <link rel="stylesheet" href="/css/daterangepicker.css">
+    <link rel="stylesheet" href="/font/Roboto.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
+    <style>
+        .centered-form{
+            margin-top: 20px;
+        }
+        .centered-form .panel{
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: rgba(0, 0, 0, 0.3) 20px 20px 20px;
+        }
+        @media  print
+        {
+            .noprint {display:none;}
+            .nomargin {margin-top: 0;}
+        }
+        @page  {
+         size: A4;
+         margin: 2mm 35mm 45mm 35mm; 
+        }
+     
+ </style>
+
+    <link rel="stylesheet" type="text/css" href="/css/jquery.datetimepicker.css"/>
+
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/jquery-ui.js"></script>
+    <script type="text/javascript" src="/js/jquery-1.10.2.js"></script>
+
+ <script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
+ <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="/js/bootstrap-filestyle.min.js"> </script>
+ <script type="text/javascript" src="/js/bootstrap-datepicker.js"></script>
+ <script type="text/javascript" src="/js/moment.min.js"></script>
+ <script type="text/javascript" src="/js/daterangepicker.js"></script>
+ <script type="text/javascript" src="/chartjs/Chart.js"></script>
+ <script type="text/javascript" src="/js/script.js"></script>
+
+
+    <script type="text/javascript" src="/js/jquery.datetimepicker.js"></script>
+
+ <script type="text/javascript">
+
+
+    //Delete Emp
+    $(document).ready(function(){
+        $(document).on("click", "#delete", function() {
+            if (confirm('Are you sure you want to delete employee record?')) {
+                $(this).prev('button').remove();
+            }else{
+                event.preventDefault();
+            }
+        });
+    });
+
+
+  
+</script>
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <img src="/img/rsdlogo.png" width="50px" height="50px" class="img-circle">&nbsp;&nbsp;&nbsp;&nbsp;
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class=""><a href="<?php echo URL::to('employees/'); ?>"><?php echo trans('labels.master.lbl_all_employees'); ?><span class="sr-only">(current)</span></a></li>
+                    <li><a href="<?php echo URL::to('employees/create'); ?>"><?php echo trans('labels.master.lbl_create_employee'); ?><span class="sr-only">(current)</span></a></li>
+                    <li><a href="<?php echo URL::to('employees/request'); ?>">PAYROLL REQUEST<span id="reqcount" class="badge"></span></a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">REPORTS<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="<?php echo URL::to('employees/reports'); ?>"><span class="glyphicon glyphicon-list-alt"></span> <?php echo trans('labels.master.lbl_payroll_reports'); ?></a></li>
+                            <li><a href="<?php echo URL::to('employees/sumarryReports'); ?>"><span class="glyphicon glyphicon-folder-open"></span> <?php echo trans('labels.payroll_reports.lbl_summary_report'); ?></a></li>                            
+                        </ul>
+                    </li>
+                </ul>
+                <?php if(Request::segment(1)=='admin'): ?>
+                <?php echo Form::open(array('url' => 'admin/search', 'class' => 'navbar-form navbar-left')); ?>
+
+                <div class="form-group">
+                    <input type="text" name="id" class="form-control" id="search">
+                </div>
+                <button type="submit" class="btn btn-default" id="searchBtn">Search</button>
+                <?php echo Form::close(); ?>
+
+                <?php else: ?>
+                <?php echo Form::open(array('url' => 'employees/search', 'class' => 'navbar-form navbar-left')); ?>
+
+                <div class="form-group">
+                    <input type="text" name="id" class="form-control" id="search">
+                </div>
+                <button type="submit" class="btn btn-default"  id="searchBtn">Search</button>
+                <?php echo Form::close(); ?>
+
+                <?php endif; ?>
+                <ul class="nav navbar-nav navbar-right">
+                    <?php if(Auth::user()->avatar == null): ?>
+                    <li><img src="/uploads/avatar.png" width="45px" height="45px" class="img-circle"></li>
+                    <?php else: ?>
+                    <li><img src="/uploads/<?php echo Auth::user()->avatar ?>" width="45px" height="45px" class="img-circle"></li>
+                    <?php endif; ?>
+                    <?php if(Auth::user()->usr_role == 1): ?>
+                    <li><a href="<?php echo URL::to('admin/profile/'.Auth::user()->user_id.'/'); ?>"><?php echo ucwords(Auth::user()->fullname); ?></a></li>
+                    <?php else: ?>
+                    <li><a href="<?php echo URL::to('hr/profile/'.Auth::user()->user_id.'/'); ?>"><?php echo ucwords(Auth::user()->fullname); ?></a></li>
+                    <?php endif; ?>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span> MENU<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <?php if(Auth::user()->usr_role == 1): ?>
+                            <li><a href="<?php echo URL::to('admin/'); ?>"><span class="glyphicon glyphicon-th-list"></span> ALL ACCOUNTS</a></li>
+                            <li><a href="<?php echo URL::to('admin/register'); ?>"><span class="glyphicon glyphicon-plus"></span> CREATE ACCOUNT</a></li>
+                            <li><a href="<?php echo URL::to('employees/tax'); ?>"><span class="glyphicon glyphicon-usd"></span> TAX</a></li>
+                            <li class="divider"></li>
+                            <li><a href="<?php echo URL::to('/logout'); ?>"><span class="glyphicon glyphicon-off"></span> LOGOUT</a></li>
+                            <?php else: ?>
+                            <li><a href="<?php echo URL::to('hr/profile/'.Auth::user()->user_id.'/'); ?>"><span class="glyphicon glyphicon-user"></span> SHOW PROFILE</a></li>
+                            <li><a href="<?php echo URL::to('hr/validate'); ?>"><span class="glyphicon glyphicon-pencil"></span> CHANGE PASSWORD</a></li>
+                            <li><a href="<?php echo URL::to('employees/tax'); ?>"><span class="glyphicon glyphicon-usd"></span> TAX</a></li>
+                            <li class="divider"></li>
+                            <li><a href="<?php echo URL::to('/logout'); ?>"><span class="glyphicon glyphicon-off"></span> LOGOUT</a></li>
+                            <?php endif; ?>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container" style="margin-top: 100px !important;">
+        <?php echo $__env->yieldContent('content'); ?>
+    </div>
+</body>
+</html>

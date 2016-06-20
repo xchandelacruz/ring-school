@@ -1,0 +1,217 @@
+<?php $__env->startSection('content'); ?>
+
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+
+            //Create Blade
+/*            $('#birthdate').datepicker({
+                format: "yyyy/mm/dd",
+                clearBtn: true,
+                orientation: "bottom auto"
+            });
+            $('#hireddate').datepicker({
+                format: "yyyy/mm/dd",
+                clearBtn: true,
+                orientation: "bottom auto"
+            });*/
+
+            $('#birthdate').datetimepicker({
+                format: "Y/m/d",
+                clearBtn: true,
+                orientation: "top auto",
+                timepicker:false
+            });
+
+            $('#hireddate').datetimepicker({
+                format: "Y/m/d",
+                clearBtn: true,
+                orientation: "top auto",
+                timepicker:false
+            });        
+        });    
+
+        $(document).on('click', '#submit', offBeforeUnload);
+        function offBeforeUnload(event) {
+            $(window).off('beforeunload');
+        }
+
+        function windowBeforeUnload() {
+            return "Data will be lost if you leave the page.";
+        }
+
+       $(document).ready(function(){
+        $('#firstname').focus();
+            $(":input").focusout(function () {
+                if ($(this).val()) {
+                    $(window).on('beforeunload', windowBeforeUnload);
+                }
+            });
+        });
+   </script>
+
+    <div class="container" style="">
+        <?php echo Form::open(array('url' => 'employees')); ?>
+
+        <div class="row centered-form">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
+                <div class="panel panel-default panel-danger">
+                    <div class="panel-heading ">
+                        <h3 class="panel-title"><?php echo trans('labels.master.lbl_create_employee'); ?></h3>
+                    </div>
+                    <div class="panel-body">
+
+                        <div class="form-group <?php if($errors->has('firstname')): ?> has-error <?php endif; ?>">
+                            <label for="firstname"><?php echo trans('labels.show.lbl_firstname'); ?></label>
+                            <input type="text" id="firstname" class="form-control" name="firstname" placeholder="<?php echo trans('placeholder.create.firstname'); ?>" value="<?php echo Input::old('firstname'); ?>">
+                            <?php if($errors->has('firstname')): ?> <p class="help-block">
+                            <div class="alert alert-danger" role="alert">
+                                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                <span class="sr-only">Error:</span>
+                                First Name field is required
+                            </div>
+                        </p>
+                        <?php endif; ?>
+                    </div>
+                <div class="form-group <?php if($errors->has('lastname')): ?> has-error <?php endif; ?>">
+                        <label for="lastname"><?php echo trans('labels.show.lbl_lastname'); ?></label>
+                        <input type="text" id="lastname" class="form-control" name="lastname" placeholder="<?php echo trans('placeholder.create.lastname'); ?>" value="<?php echo Input::old('lastname'); ?>">
+                        <?php if($errors->has('lastname')): ?> <p class="help-block">
+                        <div class="alert alert-danger" role="alert">
+                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                            <span class="sr-only">Error:</span>
+                            Last Name field is required
+                        </div>
+                    </p>
+                    <?php endif; ?>
+                </div>
+                <div class="form-group">
+                    <?php echo Form::label('gender', 'Gender'); ?>
+
+                    <?php echo Form::select('gender', array('M' => 'Male', 'F' => 'Female'), Input::old('gender'), array('class' => 'form-control')); ?>
+
+                </div>
+                <div class="form-group <?php if($errors->has('birthdate')): ?> has-error <?php endif; ?>">
+                    <label for="birthdate"><?php echo trans('labels.show.lbl_bdate'); ?></label><br/>
+                    <?php echo Form::text('birthdate', null, array('type' => 'text', 'class' => 'form-control datepicker','placeholder' => 'Pick the date this task should be completed', 'id' => 'birthdate')); ?>
+
+                    <?php if($errors->has('birthdate')): ?> <p class="help-block">
+                    <div class="alert alert-danger" role="alert">
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                        <span class="sr-only">Error:</span>
+                        Birth Date field is required
+                    </div>
+                </p>
+                <?php endif; ?>
+            </div>
+            <div class="form-group <?php if($errors->has('homeaddress')): ?> has-error <?php endif; ?>">
+                <label for="homeaddress"><?php echo trans('labels.show.lbl_home_addr'); ?></label>
+                <input type="text" id="homeaddress" class="form-control" name="homeaddress" placeholder="<?php echo trans('placeholder.create.home_addr'); ?>" value="<?php echo Input::old('homeaddress'); ?>">
+                <?php if($errors->has('homeaddress')): ?> <p class="help-block">
+                <div class="alert alert-danger" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                    Home Address field is required
+                </div>
+            </p>
+            <?php endif; ?>
+        </div>
+        <div class="form-group <?php if($errors->has('contactno')): ?> has-error <?php endif; ?>">
+            <label for="contactno"><?php echo trans('labels.show.lbl_cnt_no'); ?></label>
+            <input type="text" id="contactno" class="form-control" name="contactno" placeholder="<?php echo trans('placeholder.create.contact_no'); ?>" value="<?php echo Input::old('contactno'); ?>">
+            <?php if($errors->has('contactno')): ?> <p class="help-block">
+            <div class="alert alert-danger" role="alert">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                <span class="sr-only">Error:</span>
+                Contact Number field is required
+            </div>
+        </p>
+        <?php endif; ?>
+    </div>
+    <div class="form-group <?php if($errors->has('email')): ?> has-error <?php endif; ?>">
+        <label for="email"><?php echo trans('labels.show.lbl_email_addr'); ?></label>
+        <input type="text" id="email" class="form-control" name="email" placeholder="<?php echo trans('placeholder.create.email_addr'); ?>" value="<?php echo Input::old('email'); ?>">
+        <?php if($errors->has('email')): ?> <p class="help-block">
+        <div class="alert alert-danger" role="alert">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+            Email Address field is required
+        </div>
+    </p>
+    <?php endif; ?>
+</div>
+<div class="form-group <?php if($errors->has('position')): ?> has-error <?php endif; ?>">
+    <label for="position"><?php echo trans('labels.show.lbl_position'); ?></label>
+    <input type="text" id="position" class="form-control" name="position" placeholder="<?php echo trans('placeholder.create.position'); ?>" value="<?php echo Input::old('position'); ?>">
+    <?php if($errors->has('position')): ?> <p class="help-block">
+    <div class="alert alert-danger" role="alert">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>
+        Position field is required
+    </div>
+</p>
+<?php endif; ?>
+</div>
+<div class="form-group <?php if($errors->has('hired_date')): ?> has-error <?php endif; ?>">
+    <label for="hired_date"><?php echo trans('labels.show.lbl_hired_date'); ?></label><br/>
+    <?php echo Form::text('hired_date', null, array('type' => 'text', 'class' => 'form-control datepicker','placeholder' => 'Pick the date this task should be completed', 'id' => 'hireddate')); ?>
+
+    <?php if($errors->has('hired_date')): ?> <p class="help-block">
+    <div class="alert alert-danger" role="alert">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>
+        Hired Date field is required
+    </div>
+</p>
+<?php endif; ?>
+</div>
+<div class="form-group <?php if($errors->has('sss_no')): ?> has-error <?php endif; ?>">
+    <label for="sss_no"><?php echo trans('labels.show.lbl_sss_no'); ?></label>
+    <input type="text" id="sss_no" class="form-control" name="sss_no" placeholder="<?php echo trans('placeholder.create.sss'); ?>" value="<?php echo Input::old('sss_no'); ?>">
+
+    <?php if($errors->has('sss_no')): ?> <p class="help-block">
+    <div class="alert alert-danger" role="alert">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>
+        SSS Number field is required
+    </div> 
+</p>
+<?php endif; ?>
+</div>
+<div class="form-group <?php if($errors->has('ph_no')): ?> has-error <?php endif; ?>">
+    <label for="ph_no"><?php echo trans('labels.show.lbl_phlH_no'); ?></label>
+    <input type="text" id="ph_no" class="form-control" name="ph_no" placeholder="<?php echo trans('placeholder.create.philhealth'); ?>" value="<?php echo Input::old('ph_no'); ?>">
+    <?php if($errors->has('ph_no')): ?> <p class="help-block">
+    <div class="alert alert-danger" role="alert">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>
+        PhilHealth Number field is required
+    </div>
+</p>
+<?php endif; ?>
+</div>
+<div class="form-group <?php if($errors->has('pi_no')): ?> has-error <?php endif; ?>">
+    <label for="pi_no"><?php echo trans('labels.show.lbl_pagibig_no'); ?></label>
+    <input type="text" id="pi_no" class="form-control" name="pi_no" placeholder="<?php echo trans('placeholder.create.pagibig'); ?>" value="<?php echo Input::old('pi_no'); ?>">
+    <?php if($errors->has('pi_no')): ?> <p class="help-block">
+    <div class="alert alert-danger" role="alert">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>
+        Pag-ibig Mumber field is required
+    </div>
+</p>
+<?php endif; ?>
+</div>
+</div>
+<div class="panel-footer">
+    <?php echo Form::submit('CREATE EMPLOYEE', array('class' => 'btn btn-block btn-md btn-success', 'id'=>'submit')); ?>
+
+    <?php echo Form::close(); ?>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

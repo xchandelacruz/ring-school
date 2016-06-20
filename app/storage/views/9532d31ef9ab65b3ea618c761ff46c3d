@@ -1,0 +1,48 @@
+<?php $__env->startSection('content'); ?>
+<?php if(Session::has('message')): ?>
+<div class="alert alert-success alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+  <?php echo Session::get('message'); ?>
+
+</div>
+<?php endif; ?>
+<?php if(Session::has('errormessage')): ?>
+<div class="alert alert-danger alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+  <?php echo Session::get('errormessage'); ?>
+
+</div>
+<?php endif; ?>
+<div class="table-responsive">
+ <table class="table table-hover table-bordered">
+  <thead class="">
+    <tr class="tr-custom">
+     <td ><?php echo trans('labels.tax.lbl_status'); ?></td>
+     <td><?php echo trans('labels.tax.lbl_income'); ?></td>
+     <td><?php echo trans('labels.tax.lbl_diff'); ?></td>
+     <td><?php echo trans('labels.tax.lbl_tax_payable'); ?></td>
+     <td><?php echo trans('labels.lbl_action'); ?></td>
+   </tr>
+ </thead>
+ <tbody>
+  <?php foreach($taxes as $value): ?>
+  <tr>
+    <td class="active"><?php echo $value->status; ?></td>
+    <td class="active"><?php echo $value->basis; ?></td>
+    <td class="active"><?php echo $value->excess; ?></td>
+    <td class="active"><?php echo $value->excemption; ?></td>
+    <td class="active">
+     <a class="btn btn-small btn-default" href="<?php echo URL::to('employees/tax/update/' . $value->tax_id); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> <?php echo trans('labels.tax.lbl_edit_tax'); ?></a>
+   </td>
+ </tr>
+ <?php endforeach; ?>
+</tbody>
+</table>
+<div class="btn-group">
+  <a class="btn btn-success" href="<?php echo URL::to('employees/tax/create'); ?>"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <?php echo trans('labels.tax.lbl_insert_tax'); ?></a>
+</div>
+</div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,75 @@
+<?php $__env->startSection('content'); ?>
+<?php if(Session::has('message')): ?>
+<div class="alert alert-success alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+    <?php echo Session::get('message'); ?>
+
+</div>
+<?php endif; ?>
+<?php echo Form::open(array('url' => 'employees/'.$employee->emp_id.'/erc/')); ?>
+
+<div class="row centered-form">
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
+        <div class="panel panel-default panel-danger">
+            <div class="panel-heading ">
+
+             <h3 class="panel-title"><?php echo trans('labels.erContrib.lbl_title'); ?></h3>
+         </div>
+         <div class="panel-body">
+
+            <label for="sss"><?php echo trans('labels.erContrib.lbl_sss'); ?></label>
+            <div class="input-group <?php if($errors->has('sss')): ?> has-error <?php endif; ?>">
+                <span class="input-group-addon">₱</span>
+                <input type="text" id="sss" class="form-control" name="sss" placeholder="" value="<?php echo $employee->sssERC; ?>">
+            </div>
+            <?php if($errors->has('sss')): ?> <p class="help-block">
+            <div class="alert alert-danger" role="alert">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                <span class="sr-only">Error:</span>
+                <?php echo $errors->first('sss'); ?>
+
+            </div>
+        </p>
+        <?php endif; ?>
+        <label for="philhealth"><?php echo trans('labels.erContrib.lbl_philH'); ?></label>
+        <div class="input-group <?php if($errors->has('philhealth')): ?> has-error <?php endif; ?>">
+            <span class="input-group-addon">₱</span>
+            <input type="text" id="philhealth" class="form-control" name="philhealth" placeholder="" value="<?php echo $employee->philHealthERC; ?>">
+
+        </div>
+        <?php if($errors->has('philhealth')): ?> <p class="help-block">
+        <div class="alert alert-danger" role="alert">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span><?php echo $errors->first('philhealth'); ?>
+
+        </div>
+    </p>
+    <?php endif; ?>
+    <label for="pagibig"><?php echo trans('labels.erContrib.lbl_pagibig'); ?></label>
+    <div class="input-group <?php if($errors->has('pagibig')): ?> has-error <?php endif; ?>">
+        <span class="input-group-addon">₱</span>
+        <input type="text" id="pagibig" class="form-control" name="pagibig" placeholder="" value="<?php echo $employee->pagibigERC; ?>">
+    </div>
+    <?php if($errors->has('pagibig')): ?> <p class="help-block">
+    <div class="alert alert-danger" role="alert">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>
+        <?php echo $errors->first('pagibig'); ?>
+
+    </div>
+</p>
+<?php endif; ?>
+<br/>
+<?php echo Form::submit('SUBMIT', array('class' => 'btn col-sm-5 btn-md btn-success','style'=>'margin-left:40px;')); ?>
+
+<a href="<?php echo URL::to('employees/'.$employee->emp_id); ?>" class="btn col-sm-5 btn-md btn-danger" style="margin-left: 10px;"><?php echo trans('labels.lbl_cancel'); ?></a>
+<?php echo Form::close(); ?>
+
+</div>
+</div>
+</div>
+</div>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

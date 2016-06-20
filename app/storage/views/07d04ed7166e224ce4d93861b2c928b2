@@ -1,0 +1,104 @@
+<?php $__env->startSection('content'); ?>
+
+
+
+
+ <script type="text/javascript">
+
+$(document).ready(function() {
+
+
+
+});
+</script>
+
+
+                        <div class="title-courselist">
+
+                            <h1 class="title-h1" style="text-shadow: 0 0 3px #808080, 0 0 5px #000000;">体験者の声・成果物</h1> 
+
+                        </div>
+
+                    
+
+    <div class="container" style="margin-top: 250px !important; margin-bottom: 50px !important;">
+
+        
+    <div class="col-md-12">
+	    <div class=" panel-default blog-form">
+
+		    <div class="panel-body" >
+
+		    <div class="row">
+
+		    	<?php foreach( $feedbacks as $feedback ): ?>
+			    	<div class="col-sm-3" style="">
+				    	<?php 
+/*				    		if($feedback->tesart_cat_details == '体験者の声'){
+								$source_string = $feedback->tesart_source_dp;
+
+								$search = array('<', '>', '=', '"', '/');
+								$replace = array('', '', '', '', '');
+								$string_result = str_replace($search, $replace, $source_string);
+
+								$search1 = array('piframe srcwww.youtube.comembed', ' width425 height350iframep');
+								$replace1 = array('', '', '', '', '');
+								$video_id = str_replace($search1, $replace1, $string_result);
+				    		}else{
+								$source_string = $feedback->tesart_source_dp;
+
+								$search = array('<p>', '</p>');
+								$replace = array('', '');
+								$string_result = str_replace($search, $replace, $source_string);
+				    		}*/
+
+			            ?>
+
+			    		<article style="">
+
+						<!-- <?php echo $feedback->tesart_source; ?> -->
+
+						<div class="hovereffect-feedback">
+						<a href="<?php echo URL::to('/feedback/view/'.$feedback->tesart_id); ?>">
+							<img class="img-responsive" src="<?php echo URL::to('uploads/'); ?>/<?php echo $feedback->tesart_source_dp; ?>" style="height: 256px; width:236px; padding-bottom:20px;"/>
+					            <div class="overlay">
+					                <h2><?php echo $feedback->tesart_title; ?></h2>
+									<p> 
+										<span><?php echo $feedback->tesart_cat_details; ?></span>
+									</p> 
+					            </div>
+					    </a>
+					    </div>
+	
+					    
+						<h4 style=""><?php echo $feedback->tesart_title; ?></h4>
+
+						</article>
+										    
+			    	</div>
+
+			    <?php endforeach; ?>
+
+
+
+
+		    </div>
+
+
+
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+      
+    </div><!-- container -->
+
+
+
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

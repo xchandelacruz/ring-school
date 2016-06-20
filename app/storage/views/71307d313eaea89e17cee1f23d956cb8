@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Payroll</title>
+  <link rel="stylesheet" href="/css/loginstyle.css">
+  <link rel="stylesheet" href="/css/app.css">
+  <link rel="stylesheet" href="/font/Roboto.css">
+  <script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
+  <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6 col-md-4 col-md-offset-4">
+        <?php if(Session::has('message')): ?>
+        <div class="alert alert-success alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+          <?php echo Session::get('message'); ?>
+
+        </div>
+        <?php endif; ?>
+        <?php if(Session::has('errormessage')): ?>
+        <div class="alert alert-danger alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+          <?php echo Session::get('errormessage'); ?>
+
+        </div>
+        <?php endif; ?>
+        <div class="account-wall" >
+          <h4 class="text-center login-title">EMPLOYEE PAYROLL REQUEST</h4>
+        </p>
+        <?php echo Form::open(array('url'=>'payroll-records/', 'class'=>'form-signin')); ?>
+
+
+        <div class="form-group <?php if($errors->has('emp_id')): ?> has-error <?php endif; ?>">
+          <label for="emp_id">Employee ID</label>
+          <input type="text" id="emp_id" class="form-control input-sm" name="emp_id" placeholder="Enter Employee ID" value="<?php echo Input::old('employee_id'); ?>">
+          <?php if($errors->has('emp_id')): ?> <p class="help-block"><?php echo $errors->first('emp_id'); ?></p> <?php endif; ?>
+        </div>
+               <div class="row">
+                <button type="submit" name="SUBMIT" class="btn btn-block btn-lg btn-primary" aria-label="Left Align" id="submit">SUBMIT</button>
+              </div>
+              <div class="row" style="margin-top:10px; !important">
+               <a class="btn btn-block btn-lg btn-danger" href="/">CANCEL</a>
+             </div>
+           </div>
+         </div>
+       </div>
+     </div>
+   </body>
+   </html>
